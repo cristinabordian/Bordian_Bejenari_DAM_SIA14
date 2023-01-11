@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EDIT TASK</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+     <link href="/style/style.css" rel="stylesheet" />
+  </head>
+  <body>
+  	<header>
+		<div class="px-3 py-2 text-bg-dark">
+		  <div class="container">
+			<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+			  <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+				<img class="logo" src="/branding/svg/logo-color.svg">
+			  </a>
+	
+			  <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+				
+				<li>
+				  <a href="/" class="nav-link text-white">
+					<svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg>
+					Dashboard
+				  </a>
+				</li>
+
+				<li>
+				  <a href="#" class="nav-link text-white">
+					<svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg>
+					Tasks
+				  </a>
+				</li>
+
+				
+					<li class="nav-link dropdown text-white">
+						<a class="nav-link dropdown-toggle text-white bi d-block mx-auto mb-1"  width="24" height="24" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<span th:text="${session.user}"></span>
+						</a>
+						<ul class="dropdown-menu">
+						
+						<li><a class="dropdown-item" href="/dash/signout">Sign Out</a></li>
+						
+						</ul>
+					</li>
+			  </ul>
+
+			  <form class="d-flex" role="search">
+				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+				<button class="btn btn-outline-success" type="submit">Search</button>
+			  </form>
+
+			</div>
+		  </div>
+		</div>
+		
+	  </header>
+	  
+	  
+	  
+	  
+   
+    <div class="container">
+	  
+	   <!-- RESTful routes -->
+	   <h1 class="m-3">EDIT TASK</h1>
+	    
+	   <form th:action="@{'/dash/project/task/edit/'+ ${project.id} + '/' + ${task.id}}" method="POST">
+
+		<div class="mb-3">
+			<label for="inputTitle" class="form-label">Task Name</label>
+			<input
+			   th:value="${task.title}" 
+			   type="text" name="title" class="form-control" id="inputTitle" aria-describedby="inputTitle">
+		</div>
+		<div class="mb-3">
+			<label for="inputDescription" class="form-label">Task Description</label>
+			<textarea
+			th:value="${task.description}"  
+			name="description" class="form-control" id="inputDescription" aria-describedby="inputDescription"></textarea>
+		</div>
+
+		<div class="mb-3">
+			<label for="inputTaskStatus" class="form-label">Task Status</label>
+			<select type="text" name="taskStatus" class="form-control" id="inputTaskStatus" aria-describedby="inputTaskStatus">
+				<option value="pending">Pending</option>
+				<option value="started">Started</option>
+				<option value="completed">Completed</option>
+			</select>
+		</div>
+
+		<div class="mb-3">
+			<label for="inputPriorityLevel" class="form-label">Task Priority</label>
+			<select type="text" name="priorityLevel" class="form-control" id="inputPriorityLevel" aria-describedby="inputPriorityLevel">
+				<option value="low" th:selected="${task.priorityLevel == 'low'}">Low Priority</option>
+				<option value="mid" th:selected="${task.priorityLevel == 'mid'}">Middle Priority</option>
+				<option value="high" th:selected="${task.priorityLevel == 'high'}">High Priority</option>
+			</select>
+		</div>
+		
+		
+		<div class="mb-3">
+			<label for="inputAssignee" class="form-label">Assignee</label>
+			<select type="text" name="assignee" class="form-control" id="inputAssignee" aria-describedby="inputAssignee">
+			
+				<option  
+				  
+				  th:selected="${task.assignee != null and task.assignee.id == user.id}"
+				  th:each="user: ${users}" th:text="${user.username}" th:value="${user.id}"></option>
+			</select>
+		</div>
+		 
+
+
+
+		  <button type="submit" class="btn btn-primary">SAVE</button>
+		</form>
+	   
+	</div>
+	
+	
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  </body>
+</html>
